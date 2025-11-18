@@ -10,7 +10,10 @@ class WeatherDetail extends ConsumerWidget {
     final weatherState = ref.watch(weatherViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('天気詳細')),
+      appBar: AppBar(
+        title: Text('天気詳細', style: TextStyle(color: Colors.white)),
+        backgroundColor: Color.fromARGB(255, 70, 100, 100),
+      ),
       body: weatherState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('エラー: $err')),
@@ -42,23 +45,102 @@ class WeatherDetail extends ConsumerWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                    child: Text(
-                    '${weatherData.areaName}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 24),
-                  )),
+                ColoredBox(
+                  color: Color.fromARGB(255, 70, 100, 100),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${weatherData.areaName}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Center(
                   child: Container(
-                      width: 150,child: Image.asset(weatherImage)),
+                    width: 150,
+                    child: Image.asset(weatherImage),
+                  ),
                 ),
-                Text('天気: ${weatherData.weatherDescription}'),
-                Text('温度: ${weatherData.temperature.toStringAsFixed(1)}℃'),
-                Text('湿度: ${weatherData.humidity}%'),
+                SizedBox(height: 30),
+                Row(
+                  children: [
+                    Container(
+                      color: Color.fromARGB(255, 70, 100, 100),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '天気',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        style: TextStyle(fontSize: 16),
+                        '${weatherData.weatherDescription}',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+                Row(
+                  children: [
+                    Container(
+                      color: Color.fromARGB(255, 70, 100, 100),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '温度',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        style: TextStyle(fontSize: 16),
+                        '${weatherData.temperature} 度',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                      color: Color.fromARGB(255, 70, 100, 100),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '湿度',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        style: TextStyle(fontSize: 16),
+                        '${weatherData.humidity} %',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
                 // ... 他の天気情報
               ],
             ),

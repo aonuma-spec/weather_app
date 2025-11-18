@@ -14,7 +14,10 @@ class WeatherApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text('天気アプリ')),
+      appBar: AppBar(
+        title: Text('天気アプリ', style: TextStyle(color: Colors.white)),
+        backgroundColor: Color.fromARGB(255, 70, 100, 100),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +37,8 @@ class PlaceForm extends ConsumerWidget {
     final appStateNotifier = ref.read(weatherAppProvider.notifier);
 
     List<DropdownMenuItem<String>> dropdownItems = appState.cities.entries.map((
-        entry,) {
+      entry,
+    ) {
       return DropdownMenuItem(value: entry.key, child: Text(entry.value));
     }).toList();
 
@@ -42,12 +46,16 @@ class PlaceForm extends ConsumerWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          Text('地域を選択してください'),
-          SizedBox(height: 30),
           Container(
             child: Image.asset('assets/job_otenki_oneesan.png'),
             width: 180,
           ),
+          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text('地域を選択してください', style: TextStyle(fontSize: 20)),
+          ),
+          SizedBox(height: 10),
           DropdownButton<String>(
             value: appState.selectedCityValue,
             items: dropdownItems,
@@ -68,9 +76,7 @@ class CitySubmit extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedCity = ref
-        .watch(weatherAppProvider)
-        .selectedCityValue;
+    final selectedCity = ref.watch(weatherAppProvider).selectedCityValue;
     final weatherViewModel = ref.read(weatherViewModelProvider.notifier);
 
     return ElevatedButton(
