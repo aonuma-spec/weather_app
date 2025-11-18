@@ -34,8 +34,7 @@ class PlaceForm extends ConsumerWidget {
     final appStateNotifier = ref.read(weatherAppProvider.notifier);
 
     List<DropdownMenuItem<String>> dropdownItems = appState.cities.entries.map((
-      entry,
-    ) {
+        entry,) {
       return DropdownMenuItem(value: entry.key, child: Text(entry.value));
     }).toList();
 
@@ -44,6 +43,11 @@ class PlaceForm extends ConsumerWidget {
       child: Column(
         children: [
           Text('地域を選択してください'),
+          SizedBox(height: 30),
+          Container(
+            child: Image.asset('assets/job_otenki_oneesan.png'),
+            width: 180,
+          ),
           DropdownButton<String>(
             value: appState.selectedCityValue,
             items: dropdownItems,
@@ -64,7 +68,9 @@ class CitySubmit extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedCity = ref.watch(weatherAppProvider).selectedCityValue;
+    final selectedCity = ref
+        .watch(weatherAppProvider)
+        .selectedCityValue;
     final weatherViewModel = ref.read(weatherViewModelProvider.notifier);
 
     return ElevatedButton(

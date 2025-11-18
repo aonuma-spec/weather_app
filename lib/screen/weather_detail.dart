@@ -10,9 +10,7 @@ class WeatherDetail extends ConsumerWidget {
     final weatherState = ref.watch(weatherViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('天気詳細'),
-      ),
+      appBar: AppBar(title: const Text('天気詳細')),
       body: weatherState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('エラー: $err')),
@@ -21,12 +19,43 @@ class WeatherDetail extends ConsumerWidget {
             return const Center(child: Text('データがありません'));
           }
           // データが表示できる状態
+
+          String weatherImage = 'mark_question.png';
+          switch (weatherData.weather) {
+            case 'Clear':
+              weatherImage = 'assets/mark_tenki_hare.png';
+              break;
+            case 'Clouds':
+              weatherImage = 'assets/mark_tenki_kumori.png';
+              break;
+            case 'Rain':
+              weatherImage = 'mark_question.png';
+              break;
+            case 'Snow':
+              weatherImage = 'assets/tenki_snow.png';
+              break;
+            case 'Snow':
+              weatherImage = 'assets/tenki_snow.png';
+              break;
+            default:
+              weatherImage = 'assets/mark_question.png';
+          }
+
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('地域: ${weatherData.areaName}', style: const TextStyle(fontSize: 24)),
+                Center(
+                    child: Text(
+                    '${weatherData.areaName}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 24),
+                  )),
+                Center(
+                  child: Container(
+                      width: 150,child: Image.asset(weatherImage)),
+                ),
                 Text('天気: ${weatherData.weatherDescription}'),
                 Text('温度: ${weatherData.temperature.toStringAsFixed(1)}℃'),
                 Text('湿度: ${weatherData.humidity}%'),

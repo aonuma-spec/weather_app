@@ -63,6 +63,13 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/job_otenki_oneesan.png
+    - assets/mark_question.png
+    - assets/mark_tenki_hare.png
+    - assets/mark_tenki_kumori.png
+    - assets/mark_tenki_umbrella.png
+    - assets/mark_tenkiu_kaminari.png
+    - assets/tenki_snow.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
