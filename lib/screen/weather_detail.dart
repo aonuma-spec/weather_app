@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/model/temp_comparison_data.dart';
+import 'package:weather_app/model/weather_data.dart';
 import 'package:weather_app/view_model/weather_app_view_model.dart';
 
 class WeatherDetail extends ConsumerWidget {
   const WeatherDetail({super.key});
 
+  String minDiff(WeatherData currentData, double minTemperature) {
+    final double? currentTemp = currentData.temperature;
+    final double? minTemp = minTemperature;
+
+    if (currentTemp == null || minTemp == null) {
+      return '不明';
+    }
+
+    final difference = currentTemp - minTemp;
+    final absoluteDifference = difference.abs().toStringAsFixed(1);
+
+    return '${absoluteDifference}';
+  }
+
+  String maxDiff(WeatherData currentData, double maxTemperature) {
+    final double? currentTemp = currentData.temperature;
+    final double? maxTemp = maxTemperature;
+
+    if (currentTemp == null || maxTemp == null) {
+      return '不明';
+    }
+
+    final difference = currentTemp - maxTemp;
+    final absoluteDifference = difference.abs().toStringAsFixed(1);
+
+    return '${absoluteDifference}';
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final weatherState = ref.watch(weatherViewModelProvider);
+    final comparisonState = ref.watch(compareViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +53,6 @@ class WeatherDetail extends ConsumerWidget {
             return const Center(child: Text('データがありません'));
           }
           // データが表示できる状態
-
           String weatherImage = 'mark_question.png';
           switch (weatherData.weather) {
             case 'Clear':
@@ -33,9 +63,6 @@ class WeatherDetail extends ConsumerWidget {
               break;
             case 'Rain':
               weatherImage = 'assets/mark_tenki_umbrella.png';
-              break;
-            case 'Snow':
-              weatherImage = 'assets/tenki_snow.png';
               break;
             case 'Snow':
               weatherImage = 'assets/tenki_snow.png';
@@ -141,7 +168,37 @@ class WeatherDetail extends ConsumerWidget {
                     ),
                   ],
                 ),
-                // ... 他の天気情報
+                SizedBox(height: 30),
+                comparisonState.when(
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(value: null),
+                  ),
+                  error: (err, stack) => Center(child: Text('気温取得エラー: $err')),
+                  data: (comparisonData) {
+                    if (comparisonData == null) {
+                      return const Center(child: Text('比較データがありません'));
+                    }
+
+                    final min = comparisonData.minTempLocation;
+                    final max = comparisonData.maxTempLocation;
+                    final minDifferenceText = minDiff(weatherData, min.temperature);
+                    final maxDifferenceText = maxDiff(weatherData, max.temperature);
+
+                    return
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Column(
+                          children: [
+                            Text('${weatherData.areaName}と各地の気温差について',style: TextStyle(fontSize: 20),),
+                            SizedBox(height: 30),
+                            Text('日本で平均気温が低い「${min.areaName}（現在${min.temperature}度）」より${minDifferenceText}度暖かいです'),
+                            SizedBox(height: 10),
+                            Text('日本で平均気温が高い「${max.areaName}（現在${max.temperature}度）」より${maxDifferenceText}度寒いです。')],
+                        ),
+                      );
+
+                  },
+                ),
               ],
             ),
           );

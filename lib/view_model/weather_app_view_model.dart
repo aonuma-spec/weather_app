@@ -5,6 +5,7 @@ import 'package:weather_app/state/weather_app_state.dart';
 import 'package:weather_app/data/weather_repository.dart';
 import 'package:weather_app/state/weather_app_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/model/temp_comparison_data.dart';
 
 class WeatherViewModel extends AsyncNotifier<WeatherData?> {
   @override
@@ -42,6 +43,28 @@ final weatherAppProvider =
       return WeatherAppStateNotifier();
     });
 
-
 final selectedCityProvider = StateProvider<String>((ref) => 'sendai');
 
+// 気温比較用
+const MinCityQuery = 'rikubetsu';
+const MaxCityQuery = 'okinawa';
+
+class CompareTempViewModel extends AsyncNotifier<TempComparisonData?> {
+  @override
+  Future<TempComparisonData?> build() async {
+
+    final repository = ref.read(weatherRepositoryProvider);
+
+    final MinCityTemp = repository.loadWeather(MinCityQuery);
+    final MaxCityTemp = repository.loadWeather(MaxCityQuery);
+
+    final minTempData = await MinCityTemp;
+    final maxTempData = await MaxCityTemp;
+
+    return TempComparisonData(minTempLocation: minTempData, maxTempLocation: maxTempData);
+  }
+}
+
+final compareViewModelProvider = AsyncNotifierProvider<CompareTempViewModel, TempComparisonData?>(() {
+  return CompareTempViewModel();
+});
