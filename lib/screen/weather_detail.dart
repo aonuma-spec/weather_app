@@ -29,7 +29,7 @@ class WeatherDetail extends ConsumerWidget {
               weatherImage = 'assets/mark_tenki_kumori.png';
               break;
             case 'Rain':
-              weatherImage = 'mark_question.png';
+              weatherImage = 'assets/mark_tenki_umbrella.png';
               break;
             case 'Snow':
               weatherImage = 'assets/tenki_snow.png';
