@@ -99,74 +99,24 @@ class WeatherDetail extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 30),
-                Row(
-                  children: [
-                    Container(
-                      color: Color.fromARGB(255, 70, 100, 100),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '天気',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        style: TextStyle(fontSize: 16),
-                        '${weatherData.weatherDescription}',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
+                // 天気
+                weatherInfo(
+                  infoTitle: '天気',
+                  infoData: weatherData.weatherDescription,
                 ),
                 SizedBox(height: 10),
 
-                Row(
-                  children: [
-                    Container(
-                      color: Color.fromARGB(255, 70, 100, 100),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '温度',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        style: TextStyle(fontSize: 16),
-                        '${weatherData.temperature} 度',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
+                // 温度
+                weatherInfo(
+                    infoTitle: '温度',
+                    infoData: weatherData.temperature.toString(),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  children: [
-                    Container(
-                      color: Color.fromARGB(255, 70, 100, 100),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '湿度',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        style: TextStyle(fontSize: 16),
-                        '${weatherData.humidity} %',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
+
+                // 湿度
+                weatherInfo(
+                    infoTitle: '湿度',
+                    infoData: weatherData.humidity.toString(),
                 ),
                 SizedBox(height: 30),
                 comparisonState.when(
@@ -181,22 +131,34 @@ class WeatherDetail extends ConsumerWidget {
 
                     final min = comparisonData.minTempLocation;
                     final max = comparisonData.maxTempLocation;
-                    final minDifferenceText = minDiff(weatherData, min.temperature);
-                    final maxDifferenceText = maxDiff(weatherData, max.temperature);
+                    final minDifferenceText = minDiff(
+                      weatherData,
+                      min.temperature,
+                    );
+                    final maxDifferenceText = maxDiff(
+                      weatherData,
+                      max.temperature,
+                    );
 
-                    return
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Column(
-                          children: [
-                            Text('${weatherData.areaName}と各地の気温差について',style: TextStyle(fontSize: 20),),
-                            SizedBox(height: 30),
-                            Text('日本で平均気温が低い「${min.areaName}（現在${min.temperature}度）」より${minDifferenceText}度暖かいです'),
-                            SizedBox(height: 10),
-                            Text('日本で平均気温が高い「${max.areaName}（現在${max.temperature}度）」より${maxDifferenceText}度寒いです。')],
-                        ),
-                      );
-
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            '${weatherData.areaName}と各地の気温差について',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(height: 30),
+                          Text(
+                            '日本で平均気温が低い「${min.areaName}（現在${min.temperature}度）」より${minDifferenceText}度暖かいです',
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '日本で平均気温が高い「${max.areaName}（現在${max.temperature}度）」より${maxDifferenceText}度寒いです。',
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ],
@@ -204,6 +166,43 @@ class WeatherDetail extends ConsumerWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class weatherInfo extends StatelessWidget {
+  final String infoTitle;
+  final String infoData;
+
+  const weatherInfo({
+    Key? key,
+    required this.infoTitle,
+    required this.infoData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          color: Color.fromARGB(255, 70, 100, 100),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '${infoTitle}',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            style: TextStyle(fontSize: 16),
+            '${infoData}',
+            textAlign: TextAlign.right,
+          ),
+        ),
+      ],
     );
   }
 }
