@@ -4,15 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:weather_app/model/weather_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// データ取得
-
 // API情報
 const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather?appid=';
 final ApiKey = dotenv.get('WEATHER_API_KEY');
 const ApiParam = '&lang=ja&units=metric&q=';
 String query = '';
 
-  // APIレスポンス
+/**
+ * 天気情報取得APIデータ取得
+ */
 class WeatherRepository {
   Future<WeatherData> loadWeather(String query) async {
 
@@ -31,7 +31,10 @@ class WeatherRepository {
     return WeatherData.fromJson(body);
   }
 }
-// リポジトリのインスタンスを提供するプロバイダ
+
+/**
+ * リポジトリのインスタンスを提供するプロバイダ
+ */
 final weatherRepositoryProvider = Provider<WeatherRepository>((ref) {
   return WeatherRepository();
 });

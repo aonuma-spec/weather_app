@@ -1,12 +1,14 @@
-// モデル定義
+/**
+ * 天気取得APIレスポンスモデル
+ */
 class WeatherData {
-  final String areaName;
-  final String weather;
-  final String weatherDescription;
-  final double temperature;
-  final int humidity;
-  final double temperatureMax;
-  final double temperatureMin;
+  final String areaName;             // 地域名
+  final String weather;              // 天気
+  final String weatherDescription;   // 天気説明
+  final double temperature;          // 気温
+  final int humidity;                // 湿度
+  final double temperatureMax;       // 最高気温
+  final double temperatureMin;       // 最低気温
 
   WeatherData({
     required this.areaName,

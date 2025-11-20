@@ -4,9 +4,13 @@ import 'package:weather_app/model/temp_comparison_data.dart';
 import 'package:weather_app/model/weather_data.dart';
 import 'package:weather_app/view_model/weather_app_view_model.dart';
 
+/**
+ * 天気詳細ページ
+ */
 class WeatherDetail extends ConsumerWidget {
   const WeatherDetail({super.key});
 
+  /** 平均気温が低い地域との気温差を出力する */
   String minDiff(WeatherData currentData, double minTemperature) {
     final double? currentTemp = currentData.temperature;
     final double? minTemp = minTemperature;
@@ -16,11 +20,14 @@ class WeatherDetail extends ConsumerWidget {
     }
 
     final difference = currentTemp - minTemp;
+
+    // 気温差の表示が絶対値になるように修正
     final absoluteDifference = difference.abs().toStringAsFixed(1);
 
     return '${absoluteDifference}';
   }
 
+  /** 平均気温が高い地域との気温差を出力する */
   String maxDiff(WeatherData currentData, double maxTemperature) {
     final double? currentTemp = currentData.temperature;
     final double? maxTemp = maxTemperature;
@@ -30,6 +37,8 @@ class WeatherDetail extends ConsumerWidget {
     }
 
     final difference = currentTemp - maxTemp;
+
+    // 気温差の表示が絶対値になるように修正
     final absoluteDifference = difference.abs().toStringAsFixed(1);
 
     return '${absoluteDifference}';
@@ -41,10 +50,12 @@ class WeatherDetail extends ConsumerWidget {
     final comparisonState = ref.watch(compareViewModelProvider);
 
     return Scaffold(
+      // タイトル
       appBar: AppBar(
         title: Text('天気詳細', style: TextStyle(color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 70, 100, 100),
       ),
+      // 画面
       body: weatherState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('エラー: $err')),
@@ -52,7 +63,7 @@ class WeatherDetail extends ConsumerWidget {
           if (weatherData == null) {
             return const Center(child: Text('データがありません'));
           }
-          // データが表示できる状態
+          // 天候ごとに画像を表示する
           String weatherImage = 'mark_question.png';
           switch (weatherData.weather) {
             case 'Clear':
@@ -76,6 +87,7 @@ class WeatherDetail extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 地域を表示
                 ColoredBox(
                   color: Color.fromARGB(255, 70, 100, 100),
                   child: Center(
@@ -99,21 +111,21 @@ class WeatherDetail extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 30),
-                // 天気
+                // 天気を表示
                 weatherInfo(
                   infoTitle: '天気',
                   infoData: weatherData.weatherDescription,
                 ),
                 SizedBox(height: 10),
 
-                // 温度
+                // 温度を表示
                 weatherInfo(
                     infoTitle: '温度',
                     infoData: weatherData.temperature.toString(),
                 ),
                 SizedBox(height: 10),
 
-                // 湿度
+                // 湿度を表示
                 weatherInfo(
                     infoTitle: '湿度',
                     infoData: weatherData.humidity.toString(),
@@ -129,8 +141,11 @@ class WeatherDetail extends ConsumerWidget {
                       return const Center(child: Text('比較データがありません'));
                     }
 
+                    // 平均気温比較用の地域情報
                     final min = comparisonData.minTempLocation;
                     final max = comparisonData.maxTempLocation;
+
+                    // 平均気温比較結果の気温差
                     final minDifferenceText = minDiff(
                       weatherData,
                       min.temperature,
@@ -140,6 +155,7 @@ class WeatherDetail extends ConsumerWidget {
                       max.temperature,
                     );
 
+                    // 選択中の地域と各地との気温差を表示
                     return Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Column(
@@ -170,6 +186,9 @@ class WeatherDetail extends ConsumerWidget {
   }
 }
 
+/**
+ * 天候詳細情報表示
+ */
 class weatherInfo extends StatelessWidget {
   final String infoTitle;
   final String infoData;

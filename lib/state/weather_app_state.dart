@@ -1,5 +1,6 @@
 class WeatherAppState {
   const WeatherAppState({
+    /** 地域一覧 */
     this.cities = const {
       "tokyo": "東京",
       "sapporo": "札幌",
@@ -13,14 +14,16 @@ class WeatherAppState {
     this.selectedCityValue = "tokyo",
   });
 
+  /** 地域 */
   final Map<String, String> cities;
+
+  /** 選択中の地域 */
   final String selectedCityValue;
 
-  WeatherAppState copyWith({
-    String? selectedCityValue,
-  }) {
+  /** 選択中の地域更新 */
+  WeatherAppState copyWith({String? selectedCityValue}) {
     return WeatherAppState(
-        selectedCityValue: selectedCityValue ?? this.selectedCityValue
+      selectedCityValue: selectedCityValue ?? this.selectedCityValue,
     );
   }
 }

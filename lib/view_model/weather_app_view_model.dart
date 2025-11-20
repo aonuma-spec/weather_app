@@ -7,12 +7,16 @@ import 'package:weather_app/state/weather_app_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/model/temp_comparison_data.dart';
 
+/**
+ * 天気アプリビューモデル
+ */
 class WeatherViewModel extends AsyncNotifier<WeatherData?> {
   @override
   Future<WeatherData?> build() async {
     return null;
   }
 
+  // 天気情報取得API実行
   Future<void> loadWeather(String query) async {
 
     try {
@@ -26,11 +30,17 @@ class WeatherViewModel extends AsyncNotifier<WeatherData?> {
   }
 }
 
+/**
+ * 天気アプリビューモデルプロバイダ
+ */
 final weatherViewModelProvider =
     AsyncNotifierProvider<WeatherViewModel, WeatherData?>(() {
       return WeatherViewModel();
     });
 
+/**
+ * 天気アプリ地域変更通知
+ */
 class WeatherAppStateNotifier extends StateNotifier<WeatherAppState> {
   WeatherAppStateNotifier() : super(const WeatherAppState());
   void updateSelectedCit (String newValue) {
@@ -38,6 +48,9 @@ class WeatherAppStateNotifier extends StateNotifier<WeatherAppState> {
   }
 }
 
+/**
+ * 天気アプリプロバイダ
+ */
 final weatherAppProvider =
     StateNotifierProvider<WeatherAppStateNotifier, WeatherAppState>((ref) {
       return WeatherAppStateNotifier();
@@ -49,6 +62,9 @@ final selectedCityProvider = StateProvider<String>((ref) => 'sendai');
 const MinCityQuery = 'rikubetsu';
 const MaxCityQuery = 'okinawa';
 
+/**
+ * 各地との気温差取得用ビューモデル
+ */
 class CompareTempViewModel extends AsyncNotifier<TempComparisonData?> {
   @override
   Future<TempComparisonData?> build() async {
@@ -65,6 +81,9 @@ class CompareTempViewModel extends AsyncNotifier<TempComparisonData?> {
   }
 }
 
+/**
+ * 各地との気温差取得用ビューモデルプロバイダ
+ */
 final compareViewModelProvider = AsyncNotifierProvider<CompareTempViewModel, TempComparisonData?>(() {
   return CompareTempViewModel();
 });
