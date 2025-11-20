@@ -1,16 +1,30 @@
 # weather_app
+Flutterで作成した天気アプリ。\
+Weather APIからデータを取得し、画面に表示します。
 
-A new Flutter project.
+## 使用技術
+- Android Studio
+- Flutter
 
-## Getting Started
+## 利用パッケージ
+- flutter_dotenv
+- flutter_riverpod
 
-This project is a starting point for a Flutter application.
+## 環境変数
+- WEATHER_API_KEY: Weather APIより取得したAPIキーの値を設定
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ディレクトリ構成
+lib  
+|_main.dart  
+|_data  
+&nbsp;&nbsp;&nbsp;|_weather_repository.dart  
+|_model  
+&nbsp;&nbsp;&nbsp;|_temp_comparison_data.dart  
+&nbsp;&nbsp;&nbsp;|_weather_data.dart  
+|_screen  
+&nbsp;&nbsp;&nbsp;|_weather_app.dart  
+&nbsp;&nbsp;&nbsp;|_weather_detail.dart  
+|_state  
+&nbsp;&nbsp;&nbsp;|_weather_app_state.dart  
+|_view_model  
+&nbsp;&nbsp;&nbsp;|_weather_app_view_model.dart  
