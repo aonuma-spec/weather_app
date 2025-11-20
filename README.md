@@ -2,6 +2,10 @@
 Flutterで作成した天気アプリ。\
 Weather APIからデータを取得し、画面に表示します。
 
+## スクリーンショット
+![アプリのスクリーンショット1](https://github.com/aonuma-spec/weather_app/blob/README_Images/readme_images/view_screen1.png）
+![アプリのスクリーンショット2](https://github.com/aonuma-spec/weather_app/blob/README_Images/readme_images/view_screen2.png）
+
 ## 使用技術
 - Android Studio
 - Flutter
